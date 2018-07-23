@@ -147,5 +147,5 @@ def infer_input_fn(name):
 
 if __name__ == '__main__':
     import sys
-    name = ''.join(sys.argv[1:])
+    name = ' '.join(sys.argv[1:])
     print("{}: {}".format(name, parse_name(name.upper())))

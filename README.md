@@ -13,7 +13,7 @@ The application runs by issuing the following command in the terminal:
 The application has 4 relevant commands:
 * `train`: to train the model on a given dataset.
 * `test`: to test the model on a given dataset.
-* `infer`: to infer whether a given name is that of a girl or a boy.
+* `infer`: to infer whether a given name is that of a girl or a boy. Use a quoted name in case of names with spaces on it.
 * `download-data`: to download the dataset of names, parse, split the data into train and test sets and store it as .hdf5 file.
 
 Please use the `--help` option for more details.

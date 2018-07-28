@@ -6,3 +6,6 @@ venv/
 
 ## Visual Studio Code
 .vscode/
+
+## Custom
+.saved/

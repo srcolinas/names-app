@@ -4,4 +4,16 @@ This project is an application of a names classifier, that is, classify a name o
 
 Up to now, this only works with spanish names.
 
-I expect that the particular choice for problem and solution approach is of no real value, but let me know if you can think of some ;)
+I expect that the particular choice for problem and solution approach is of no real value (from the machine learning perspective), but let me know if you can think of some ;)
+
+## How to use it
+
+The application runs by issuing the following command in the terminal:
+` python local_app.py --log <log-level> <command-name> <command-options>
+The application has 4 relevant commands:
+* `train`: to train the model on a given dataset.
+* `test`: to test the model on a given dataset.
+* `infer`: to infer whether a given name is that of a girl or a boy.
+* `download-data`: to download the dataset of names, parse, split the data into train and test sets and store it as .hdf5 file.
+
+Please use the `--help` option for more details.

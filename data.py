@@ -1,16 +1,23 @@
 import collections
 import itertools
+import logging
+import os
 import string
 import urllib.request
 
+import h5py
 import numpy as np
-
+from sklearn.model_selection import train_test_split
 
 _MEN_DATA_SOURCE = 'https://raw.githubusercontent.com/srcolinas/spanish-names/master/hombres.csv'
 _WOMEN_DATA_SOURCE = 'https://raw.githubusercontent.com/srcolinas/spanish-names/master/mujeres.csv'
 _CHARS_TO_INDEX = {c: i for i,c in enumerate(string.ascii_uppercase + " ÑÇ'*.")}
 _VOCAB_SIZE = len(_CHARS_TO_INDEX)
 _NAME_VECTOR_LENGTH = 15
+_LABELS = ('Man', 'Woman')
+
+_PARENT_PATH = os.path.dirname(os.path.realpath(__file__))
+DEFAULT_FPATH = os.path.join(_PARENT_PATH, '.saved', 'data.hdf5')
 
 def maybe_download_csv(url_csv):
     """Read the csv in the url as a string.
@@ -76,6 +83,8 @@ def maybe_download_and_read(url_csv, return_list=True):
     
     return read_data_string(data, return_list=return_list)
 
+def parse_output(label):
+    return _LABELS[int(label)]
 
 def parse_name(name):
     """
@@ -88,12 +97,10 @@ def parse_name(name):
     Returns:
         a vector representation of the name
     """
-    try:
-        _ = name[_NAME_VECTOR_LENGTH]
-    except IndexError:
-        name = '*'*(_NAME_VECTOR_LENGTH - len(name) + 1) + name
-
-    arr = [_CHARS_TO_INDEX[name[idx]] for idx in range(_NAME_VECTOR_LENGTH+1)]
+    if len(name) < _NAME_VECTOR_LENGTH:
+        name = '*'*(_NAME_VECTOR_LENGTH - len(name)) + name
+    
+    arr = [_CHARS_TO_INDEX[name[idx]] for idx in range(_NAME_VECTOR_LENGTH)]
     return np.array(arr)
 
 # def parse_name(name):
@@ -114,8 +121,66 @@ def parse_name(name):
 
 #     return arr
 
+
+def save_dataset(fpath=DEFAULT_FPATH, data_dict=None,
+                return_file_object=False, **split_options):
+    """ Saves the data_dict to the given path.
+
+    This function will store the `data_dict` argument into a .hdf5 file
+    using h5py to the specified fpath, which has a default value defined
+    at the module level. In case `data_dict` is not provided, this will
+    call the `build_dataset` function to construct the default dataset
+    of this project and split it using the keywrod arguments received 
+    by **split_options.
+
+    Args:
+        fpath (str): fpath in which to store the data. It defaults to 
+            the module level constant DEFAULT_FPATH.
+        data_dict (dict): a dictionary of the numpy arrays to store.
+        return_file_object (bool): whether to return the h5py.File
+            objtect created. Defaults to False.
+        **split_options: keyword arguments passed to the
+            `train_test_split` function from sklearn.model_selection.
+            Only work if `data_dict`is None.
+
+    """ 
+    if data_dict is None:
+        X, y = build_dataset()
+        X_train, X_test, y_train, y_test = train_test_split(
+            X, y, **split_options)
+        data_dict = {
+            'X_train': X_train,
+            'X_test': X_test,
+            'y_train': y_train,
+            'y_test': y_test,
+        }
+
+    if not fpath.endswith('hdf5'):
+        fpath = fpath + '.hdf5'
+    try:
+        f = h5py.File(fpath, mode='w', libver='latest')
+    except OSError:
+        os.makedirs(os.path.dirname(fpath))
+        f = h5py.File(fpath, mode='w', libver='latest')
+    finally:
+        for k, v in data_dict.items():
+            _ = f.create_dataset(k, data=v)
+        if return_file_object:
+            return f
+        f.close()
+
+
+def load_dataset(fpath=DEFAULT_FPATH, return_arrays=True):
+
+    f = h5py.File(fpath, mode='r', libver='latest')
+    if return_arrays:
+        data = {k:np.array(v) for k,v in f.items()}
+        f.close()
+        return data
+    return f
+
 def build_dataset():
-    """Builds the dataset for training and testing."""
+    """Builds the dataset (X, y)."""
 
     append_fn = np.append
 
@@ -143,9 +208,10 @@ def infer_input_fn(name):
     Returns:
         a vector representation of the name
     """
-    return parser_name(name.upper())[np.newaxis, :]
+    return parse_name(name.upper())[np.newaxis, :]
 
 if __name__ == '__main__':
     import sys
     name = ' '.join(sys.argv[1:])
-    print("{}: {}".format(name, parse_name(name.upper())))
+    name = name.upper()
+    print("{}: {}".format(name, parse_name(name)))

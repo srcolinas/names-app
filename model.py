@@ -7,12 +7,27 @@ DEFAULT_FPATH = os.path.join(_PARENT_PATH, '.saved', 'model.pkl')
 
 
 def save_model(clf, fpath=DEFAULT_FPATH):
+    """Saves the classifier in the given file path.
 
+    Args:
+        clf (obj): A classifier object such as
+            `sklearn.tree.DecisionTreeClassifier`.
+        fpath (str): the file path to store the classifier. Defaults to
+            `model.DEFAULT_FPATH`.
+    """
     with open(fpath, "wb") as f:
         pickle.dump(clf, f)
 
 def load_model(fpath=DEFAULT_FPATH):
+    """Loads the classifier from the given file path.
 
+    Args:
+        fpath (str): the file path with the serializede classifier.
+            Defaults to`model.DEFAULT_FPATH`.
+    
+    Returns:
+        A classifier object such as `sklearn.tree.DecisionTreeClassifier`.
+    """
     with open(fpath, "rb") as f:
         clf = pickle.load(f)
     return clf

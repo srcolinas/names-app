@@ -84,6 +84,7 @@ def maybe_download_and_read(url_csv, return_list=True):
     return read_data_string(data, return_list=return_list)
 
 def parse_output(label):
+    """Returns the label name given the label id. """
     return _LABELS[int(label)]
 
 def parse_name(name):
@@ -171,6 +172,17 @@ def save_dataset(fpath=DEFAULT_FPATH, data_dict=None,
 
 
 def load_dataset(fpath=DEFAULT_FPATH, return_arrays=True):
+    """ Loads the dataset from the given fpath.
+
+    Args:
+        fpath (str): the path where the data is stored. Defaults to 
+            `data.DEFAULT_FPATH`.
+        return_arrays (bool): whether to return a dictionary of numpy
+            arrays or the `h5py.File` object.
+    returns
+        A dictionary (or dictionary like object) with the data. See
+        arguments for clarification.
+    """
 
     f = h5py.File(fpath, mode='r', libver='latest')
     if return_arrays:

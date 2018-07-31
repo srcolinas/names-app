@@ -3,6 +3,7 @@ import os
 import pickle
 
 import click
+import numpy as np
 
 import data
 import model
@@ -24,6 +25,8 @@ def main(ctx, log):
     default=data.DEFAULT_FPATH,
     help="File path of a .hdf5 file with the data")
 @click.option('--max-depth', help="Maximum depth of the tree")
+@click.option('-a', '--all-data', is_flag=True,
+    help="Wether to use all data available for training")
 @click.option('-m', '--model-fpath',
     default=model.DEFAULT_FPATH,
     help="File path to store the model")
@@ -32,7 +35,7 @@ def main(ctx, log):
 @click.option('-s', '--save', is_flag=True,
     help="In case no dataset file was provided this flag will save one")
 @click.pass_context
-def train(ctx, dataset_fpath, max_depth, model_fpath, test, save):
+def train(ctx, dataset_fpath, all_data, max_depth, model_fpath, test, save):
 
     if not os.path.isfile(dataset_fpath):
         logging.info('No dataset was provided, building with default settings')
@@ -40,15 +43,22 @@ def train(ctx, dataset_fpath, max_depth, model_fpath, test, save):
 
     dataset = data.load_dataset(dataset_fpath, return_arrays=False) 
     clf = model.DecisionTreeClassifier(max_depth=max_depth)
-    clf.fit(dataset['X_train'], dataset['y_train'])
+
+    X_train, y_train = dataset['X_train'], dataset['y_train']
+    X_test, y_test = dataset['X_test'], dataset['y_test']
+    if all_data:
+        X_train = np.concatenate((X_train, X_test), axis=0)
+        y_train = np.concatenate((y_train, y_test), axis=0)
+
+    clf.fit(X_train, y_train)
 
     model.save_model(clf, model_fpath)
 
-    acc = clf.score(dataset['X_train'], dataset['y_train'])
+    acc = clf.score(X_train, y_train)
     logging.info("Accuracy on training set: {}".format(acc))
 
     if test:
-        acc = clf.score(dataset['X_test'], dataset['y_test'])
+        acc = clf.score(X_test, y_test)
         logging.info("Accuracy on the test set: {}".format(acc))
 
 @main.command('test')

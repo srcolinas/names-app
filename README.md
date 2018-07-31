@@ -8,6 +8,7 @@ I expect that the particular choice for problem and solution approach is of no r
 
 ## How to use the local app
 
+First of all I recommend you install the requirements in a virtual environment (see instructions for [pip and virtualenv](https://packaging.python.org/guides/installing-using-pip-and-virtualenv/))
 The application runs by issuing the following command in the terminal:
 ` python local_app.py --log <log-level> <command-name> <command-options>
 The application has 4 relevant commands:

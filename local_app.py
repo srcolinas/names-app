@@ -91,6 +91,24 @@ def infer(ctx, name, model_fpath):
 def download_data(ctx, fpath):
     data.save_dataset(fpath)
 
+
+@main.command('export-model')
+@click.option('-l', '--local-fpath',
+    default=model.DEFAULT_FPATH,
+    help="Path of the pickled model to be exported")
+@click.option('-s', '--s3-fpath',
+    default="srcolinas-names/models/model.pkl",
+    help="S3 file path")
+@click.pass_context
+def export_model(ctx, local_fpath, s3_fpath):
+
+    clf = model.load_model(local_fpath)
+
+    import boto3
+    bucket_name, key = s3_fpath.split('/', 1)
+    s3 = boto3.resource('s3')
+    s3.Object(bucket_name, key).put(Body=pickle.dumps(clf))
+    
     
 if __name__ == '__main__':
     main(obj={})

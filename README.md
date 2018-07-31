@@ -6,7 +6,7 @@ Up to now, this only works with spanish names.
 
 I expect that the particular choice for problem and solution approach is of no real value (from the machine learning perspective), but let me know if you can think of some ;)
 
-## How to use it
+## How to use the local app
 
 The application runs by issuing the following command in the terminal:
 ` python local_app.py --log <log-level> <command-name> <command-options>
@@ -17,3 +17,11 @@ The application has 4 relevant commands:
 * `download-data`: to download the dataset of names, parse, split the data into train and test sets and store it as .hdf5 file.
 
 Please use the `--help` option for more details.
+
+## How to use the web app
+
+1) First make sure you intall the additional requirements: [Zappa](https://github.com/Miserlou/Zappa) and [boto3](https://boto3.readthedocs.io/en/latest/)
+
+2) Deploy the app in your computer runing `pyhton flask_app.py` on the command line or in [AWS Lambda](https://aws.amazon.com/lambda/) using the Zappa command `zappa deploy dev`.
+
+3) Use the app by making an http GET request to `BASE_URL/infer/<name>` and you will get the corresponding label (Man or Woman).

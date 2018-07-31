@@ -1,0 +1,16 @@
+{
+    "dev": {
+    "app_function": "flask_app.app",
+    "profile_name": "default",
+    "project_name": "names-app",
+    "runtime": "python3.6",
+    "s3_bucket": "srcolinas-names",
+    "aws_region": "us-east-1",
+    "exclude": [
+            "**.pkl", "**.csv", "**.txt", ".git/", "**.md", ".gitignore",
+            "**.json", "**.zip", "**.hdf5", "requirements.txt", "model.py",
+            "local_app.py", "venv/", ".vscode/", "**__pycache__/",
+            "zappa_settings.json", "boto3*", "botocore*"
+        ]
+    }
+}

@@ -7,7 +7,7 @@ Up to now, this only works with spanish names.
 I expect that the particular choice for problem and solution approach is of no real value (from the machine learning perspective), but let me know if you can think of some ;)
 
 ## How to use it
-
+First of all I recommend you install the requirements in a virtual environment (see instructions for [pip and virtualenv](https://packaging.python.org/guides/installing-using-pip-and-virtualenv/))
 The application runs by issuing the following command in the terminal:
 ` python local_app.py --log <log-level> <command-name> <command-options>
 The application has 4 relevant commands:

@@ -26,4 +26,4 @@ Please use the `--help` option for more details.
 
 2) Deploy the app in your computer runing `pyhton flask_app.py` on the command line or in [AWS Lambda](https://aws.amazon.com/lambda/) using the Zappa command `zappa deploy dev`.
 
-3) Use the app by making an http GET request to `BASE_URL/infer/<name>` and you will get the corresponding label (Man or Woman). Note that `BASE_URL` depends on when it is deployed.
+3) Use the app by making an http GET request to `BASE_URL/infer/<name>` and you will get the corresponding label (Man or Woman). Note that `BASE_URL` depends on where it is deployed.

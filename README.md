@@ -12,6 +12,7 @@ First of all I recommend you install the requirements in a virtual environment (
 The application runs by issuing the following command in the terminal:
 ` python local_app.py --log <log-level> <command-name> <command-options>
 The application has 4 relevant commands:
+
 * `train`: to train the model on a given dataset.
 * `test`: to test the model on a given dataset.
 * `infer`: to infer whether a given name is that of a girl or a boy. Use a quoted name in case of names with spaces on it.
@@ -25,4 +26,4 @@ Please use the `--help` option for more details.
 
 2) Deploy the app in your computer runing `pyhton flask_app.py` on the command line or in [AWS Lambda](https://aws.amazon.com/lambda/) using the Zappa command `zappa deploy dev`.
 
-3) Use the app by making an http GET request to `BASE_URL/infer/<name>` and you will get the corresponding label (Man or Woman).
+3) Use the app by making an http GET request to `BASE_URL/infer/<name>` and you will get the corresponding label (Man or Woman). Note that `BASE_URL` depends on when it is deployed.

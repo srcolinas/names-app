@@ -24,25 +24,26 @@ def main(ctx, log):
 @click.option('--dataset-fpath',
     default=data.DEFAULT_FPATH,
     help="File path of a .hdf5 file with the data")
-@click.option('--max-depth', help="Maximum depth of the tree")
+@click.option('--max-depth', type=int,
+    help="Maximum depth of the tree")
 @click.option('-a', '--all-data', is_flag=True,
     help="Wether to use all data available for training")
 @click.option('-m', '--model-fpath',
     default=model.DEFAULT_FPATH,
     help="File path to store the model")
+@click.option('-n', '--name', default='tree',
+    help="name of the model to use from the registry")
 @click.option('-t', '--test', is_flag=True,
     help="Wether to logg the accuracy on the test set")
-@click.option('-s', '--save', is_flag=True,
-    help="In case no dataset file was provided this flag will save one")
 @click.pass_context
-def train(ctx, dataset_fpath, all_data, max_depth, model_fpath, test, save):
+def train(ctx, dataset_fpath, all_data, max_depth, model_fpath, name, test):
 
     if not os.path.isfile(dataset_fpath):
         logging.info('No dataset was provided, building with default settings')
         data.save_dataset(dataset_fpath)
 
     dataset = data.load_dataset(dataset_fpath, return_arrays=False) 
-    clf = model.DecisionTreeClassifier(max_depth=max_depth)
+    clf = model.REGISTRY[name](max_depth=max_depth)
 
     X_train, y_train = dataset['X_train'], dataset['y_train']
     X_test, y_test = dataset['X_test'], dataset['y_test']

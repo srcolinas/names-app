@@ -17,7 +17,7 @@ _NAME_VECTOR_LENGTH = 15
 _LABELS = ('Man', 'Woman')
 
 _PARENT_PATH = os.path.dirname(os.path.realpath(__file__))
-DEFAULT_FPATH = os.path.join(_PARENT_PATH, '.saved', 'data.hdf5')
+DEFAULT_FPATH = os.path.join(_PARENT_PATH, 'saved', 'data.hdf5')
 
 def maybe_download_csv(url_csv):
     """Read the csv in the url as a string.
@@ -178,7 +178,7 @@ def load_dataset(fpath=DEFAULT_FPATH, return_arrays=True):
         fpath (str): the path where the data is stored. Defaults to 
             `data.DEFAULT_FPATH`.
         return_arrays (bool): whether to return a dictionary of numpy
-            arrays or the `h5py.File` object.
+            arrays or the `h5py.Filname = name.upper()e` object.
     returns
         A dictionary (or dictionary like object) with the data. See
         arguments for clarification.
@@ -223,7 +223,16 @@ def infer_input_fn(name):
     return parse_name(name.upper())[np.newaxis, :]
 
 if __name__ == '__main__':
-    import sys
-    name = ' '.join(sys.argv[1:])
-    name = name.upper()
-    print("{}: {}".format(name, parse_name(name)))
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-d', '--download', action='store_true',
+        help="Download and save the dataset usign h5py")
+    parser.add_argument('-n', '--name',
+        help="Convert a name into its vector representation")
+    
+    args = parser.parse_args()
+    if args.download:
+        save_dataset()
+    if args.name is not None:
+        name = args.name.upper()
+        print("{}: {}".format(name, parse_name(name)))

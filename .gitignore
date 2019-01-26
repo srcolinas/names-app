@@ -1,11 +1,11 @@
 ## Python virtual environment
-venv/
+venv
 
 ## Python Cache
-**__pycache__/
+__pycache__
 
 ## Visual Studio Code
-.vscode/
+.vscode
 
 ## Custom
-.saved/
+saved

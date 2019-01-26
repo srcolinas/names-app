@@ -1,10 +1,14 @@
 import os
 import pickle
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 
 _PARENT_PATH = os.path.dirname(os.path.realpath(__file__))
-DEFAULT_FPATH = os.path.join(_PARENT_PATH, '.saved', 'model.pkl')
+DEFAULT_FPATH = os.path.join(_PARENT_PATH, 'saved', 'model.pkl')
 
+REGISTRY = {
+    'tree': DecisionTreeClassifier, 'forest': RandomForestClassifier
+}
 
 def save_model(clf, fpath=DEFAULT_FPATH):
     """Saves the classifier in the given file path.

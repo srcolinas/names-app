@@ -1,6 +1,6 @@
 {
     "dev": {
-    "app_function": "flask_app.app",
+    "app_function": "serverless.app",
     "profile_name": "default",
     "project_name": "names-app",
     "runtime": "python3.6",
@@ -9,8 +9,8 @@
     "exclude": [
             "**.pkl", "**.csv", "**.txt", ".git/", "**.md", ".gitignore",
             "**.json", "**.zip", "**.hdf5", "requirements.txt", "model.py",
-            "local_app.py", "venv/", ".vscode/", "**__pycache__/",
-            "zappa_settings.json", "boto3*", "botocore*"
+            "local_app.py", "venv/", ".vscode/", "**__pycache__/", "saved/",
+            "zappa_settings.json", "boto3*", "botocore*", "microservice.py"
         ]
     }
 }

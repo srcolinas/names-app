@@ -9,7 +9,7 @@ import data
 
 BUCKET_NAME = 'srcolinas-names'
 REGION_NAME = 'us-east-1'
-models_PREFIX = 'models/'
+MODELS_PREFIX = 'models/'
 S3 = boto3.resource('s3')
 
 
@@ -20,7 +20,8 @@ def load_model(s3_fpath="srcolinas-names/models/model.pkl"):
     
     bucket_name, key = s3_fpath.split('/', 1)
     response = S3.Object(bucket_name=bucket_name, key=key).get()
-    return pickle.loads(response['Body'].read())
+    clf = pickle.loads(response['Body'].read())
+    return clf
 
 @app.route('/')
 def hello():

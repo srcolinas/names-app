@@ -87,26 +87,9 @@ def parse_output(label):
     """Returns the label name given the label id. """
     return _LABELS[int(label)]
 
-def parse_name(name):
-    """
-    Converts a name (str) into a 2d numpy array of shape
-    (n_features, ). All characters should be in capital letters.
-
-    Args:
-        name (str): name in capital letters to convert.
-
-    Returns:
-        a vector representation of the name
-    """
-    if len(name) < _NAME_VECTOR_LENGTH:
-        name = '*'*(_NAME_VECTOR_LENGTH - len(name)) + name
-    
-    arr = [_CHARS_TO_INDEX[name[idx]] for idx in range(_NAME_VECTOR_LENGTH)]
-    return np.array(arr)
-
 # def parse_name(name):
 #     """
-#     Converts a name (str) into a 1d numpy array of shape
+#     Converts a name (str) into a 2d numpy array of shape
 #     (n_features, ). All characters should be in capital letters.
 
 #     Args:
@@ -115,12 +98,31 @@ def parse_name(name):
 #     Returns:
 #         a vector representation of the name
 #     """
-#     arr = np.zeros(_OBSERVATION_SIZE)
-#     for chr_, count in collections.Counter(name).items():
-#         idx = _CHARS_TO_INDEX[chr_]
-#         arr[idx] = count
+#     if len(name) < _NAME_VECTOR_LENGTH:
+#         name = '*'*(_NAME_VECTOR_LENGTH - len(name)) + name
+    
+#     arr = [_CHARS_TO_INDEX[name[idx]] for idx in range(_NAME_VECTOR_LENGTH)]
+#     return np.array(arr)
 
-#     return arr
+def parse_name(name):
+    """
+    Converts a name (str) into a 1d numpy array of shape
+    (n_features, ). All characters should be in capital letters.
+
+    Args:
+        name (str): name in capital letters to convert.
+
+    Returns:
+        a vector representation of the name
+    """
+    arr = np.zeros(32,)
+    for l in name:
+        idx = _CHARS_TO_INDEX[l]
+        arr[idx] = 1
+    
+    if name[-1] == 'A':
+        arr[-1] = 1
+    return arr
 
 
 def save_dataset(fpath=DEFAULT_FPATH, data_dict=None,

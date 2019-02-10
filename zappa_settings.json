@@ -9,7 +9,7 @@
     "exclude": [
             "**.pkl", "**.csv", "**.txt", ".git/", "**.md", ".gitignore",
             "**.json", "**.zip", "**.hdf5", "requirements.txt", "model.py",
-            "local_app.py", "venv/", ".vscode/", "**__pycache__/", "saved/",
+            "local_app.py", "venv", ".vscode", "__pycache__", "saved",
             "zappa_settings.json", "boto3*", "botocore*", "microservice.py"
         ]
     }

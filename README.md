@@ -6,6 +6,8 @@ Up to now, this only works with spanish names.
 
 I expect that the particular choice for problem and solution approach is of no real value (from the machine learning perspective), but let me know if you can think of some ;)
 
+The slides for the tutorial can be downloaded [here](https://docs.google.com/presentation/d/1lhTNoh4UMRsgKRu5z9lXCE2j6akBGdeA9BKF4xnQ35I/edit?usp=sharing)
+
 ## How to use the local app
 
 First of all I recommend you install the requirements in a virtual environment (see instructions for [pip and virtualenv](https://packaging.python.org/guides/installing-using-pip-and-virtualenv/))
